@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+-->
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>A11yFirst Features Demo</title>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+</head>
+
+<body id="main">
+
+    <header class="header-a">
+        <div class="grid-container">
+            <h1 class="header-a-logo">
+			CKEditor API Test Page
+		</h1>
+        </div>
+    </header>
+
+    <main>
+        <h1>A11yFirst Features Demo</h1>
+
+        <h2>Header restriction feature</h2>
+        <ul>
+            <li>The list of header updates based on the posiiton of the insert cursor and/or selection.</li>
+            <li>Looks at the last heading level before the insert cursor and updates the "A11y Format" pull down menu with only the allowed headings.</li>
+        </ul>
+
+        <div class="adjoined-bottom">
+            <div class="grid-container">
+                <div class="grid-width-100">
+                    <div id="editor">
+
+                        <p>Lorem ipsum dolor sit amet, sollicitudin sit vestibulum, varius consectetuer, convallis turpis vitae. Pede dui, morbi non, praesent ipsum. Turpis dolor malesuada. Metus ornare nulla, sit mi. Lorem nisl, possimus risus. Sagittis fermentum.</p>
+
+                        <h2>Section 1</h2>
+                        <p>Lorem ipsum dolor sit amet, risus vivamus consequat, at magna hac. Quam etiam diam, habitant nunc proin. Nec egestas mollis, risus in, integer neque modi. Vulputate adipisicing, in enim, rhoncus ipsum ipsum. Blandit nulla duis. Consectetuer felis, cursus massa maecenas, justo rutrum metus.</p>
+
+                        <p>Dui convallis ligula, adipiscing nisl vivamus, scelerisque scelerisque wisi. Ipsum sapien sed, dictum turpis pellentesque, suspendisse pulvinar. Rhoncus tempus viverra, dolor amet tincidunt, massa a aliquam. Velit ultrices malesuada, unde aliquam, diam tortor. Sem integer ut. Accusantium neque mauris, purus a purus.</p>
+
+                        <h3>Section 1A</h3>
+                        <p>Bibendum nam libero, per sem, aliquam phasellus omnis. Adipiscing tristique mauris. Pretium nunc, luctus magna, ridiculus wisi in. Cum quam, qui sit. Inceptos sodales elit.</p>
+
+                        <h3>Section 1B</h3>
+                        <p>Potenti cras in, id dapibus proin, tellus tellus potenti. Nibh et varius. Nullam aenean. Metus nulla neque, vitae quam neque. Orci quis pellentesque.</p>
+
+                        <h2>Section 2</h2>
+                        <p>Tempus diam. At tortor aenean. Maecenas eu, quis cum, integer dapibus. Id consequat suscipit. Distinctio in, donec urna. Vel iaculis convallis.</p>
+
+                        <h3>Section 2A</h3>
+                        <p>Suscipit dolor hendrerit, sapiente venenatis lacus. Hymenaeos porttitor, at nibh. Ornare in, neque libero. Rhoncus amet. Neque tempor, nulla natoque, nec eiusmod sit.</p>
+
+                        <h3>Section 2B</h3>
+                        <p>Sem eleifend nulla, duis nulla sollicitudin. Dui sit non. Proin placerat convallis, sociosqu turpis vel, interdum erat. Mollis risus, litora neque nec, sit pretium turpis. Suscipit ut, magnis nec, mi vestibulum nulla.</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+    <footer class="footer-a grid-container">
+        <div class="grid-container">
+            Copyright &copy; 2016, All rights reserved.
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+    <script src="../ckeditor.js"></script>
+
+    <script>
+        (function() {
+            'use strict';
+
+            CKEDITOR.replace('editor', {
+                // Define the toolbar groups as it is a more accessible solution.
+                toolbarGroups: [{
+                        "name": "basicstyles",
+                        "groups": ["basicstyles"]
+                    },
+                    {
+                        "name": "a11yFirst",
+                        "groups": []
+                    },
+
+                    //  			{"name":"links","groups":["links"]},
+                    //				{"name":"paragraph","groups":["list","blocks"]}
+                    //				{"name":"insert","groups":["insert"]},
+                    //				{"name":"styles","groups":["styles"]},
+                    //				{"name":"about","groups":["about"]},
+                ],
+                // Remove the redundant buttons from toolbar groups defined above.
+                removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar',
+                format_tags: 'p;h1;h2;h3;h4;h5;h6;pre;address;div',
+                height: 300,
+                extraPlugins: 'a11yfirst-headings,a11yfirst-image',
+
+            });
+
+            /*function insertTag() {
+                $('.tagName').remove();
+                $('#editor').children().each(function() {
+                    var tagName = $(this).prop("tagName");
+                    $(this).prepend('<img class="tagName" src="img/tagName/opening_tag_' + tagName + '.png" width="25px" />')
+                        .append('<img class="tagName" src="img/tagName/closing_tag_' + tagName + '.png" width="25px" />');
+                });
+                $('.tagName').attr("disabled", true);
+            }*/
+
+            for (var i in CKEDITOR.instances) {
+
+                CKEDITOR.instances[i].on('change', function() {
+                    console.log(CKEDITOR.instances[i]);
+                });
+
+            }
+        })();
+
+
+        /*$(document).ready(function() {
+            $('#editor').children().each(function() {
+                var tagName = $(this).prop("tagName");
+                $(this).prepend('<img class="tagName" src="img/tagName/opening_tag_' + tagName + '.png" width="25px" />')
+                    .append('<img class="tagName" src="img/tagName/closing_tag_' + tagName + '.png" width="25px" />');
+            });
+            $('.tagName').attr("disabled", true);
+        });*/
+
+    </script>
+</body>
+
+</html>
